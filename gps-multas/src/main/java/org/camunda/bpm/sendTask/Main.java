@@ -23,5 +23,15 @@ public class Main {
         .open();
         
         ServiceTasks.AñadirPenalizacion(client);
+        
+        client.subscribe("notificar-incremento") 
+        .lockDuration(1000)
+        .handler(new NotificarInfractorIncremento())
+        .open();
+        
+        client.subscribe("confirmar-pago-recibido") 
+        .lockDuration(1000)
+        .handler(new ConfirmacionPago())
+        .open();
     }
 }
