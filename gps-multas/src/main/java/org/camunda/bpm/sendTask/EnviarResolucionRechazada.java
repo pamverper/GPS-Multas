@@ -6,15 +6,14 @@ import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
 
-
-public class NotificarInfractor implements ExternalTaskHandler{
+public class EnviarResolucionRechazada implements ExternalTaskHandler{
 	
 	//Handler correo
-    private static final Logger LOGGER = Logger.getLogger(NotificarInfractor.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EnviarResolucionRechazada.class.getName());
     
     private MailGenerico mailWorker;
 
-    public NotificarInfractor() {
+    public EnviarResolucionRechazada() {
         this.mailWorker = new MailGenerico();
     }
 
@@ -25,17 +24,14 @@ public class NotificarInfractor implements ExternalTaskHandler{
 
         // CONFIGURA los valores específicos para este correo
     	String destinatario = "lauritagaro14@gmail.com";
-    	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
-    	Integer idInfraccion = (Integer) externalTask.getVariable("id_infraccion");
-    	Integer precioInfraccion = (Integer) externalTask.getVariable("precio_infraccion");
-
+        Integer idInfractor = Integer.parseInt(externalTask.getVariable("id_infractor"));
+        Integer idInfraccion = Integer.parseInt(externalTask.getVariable("id_infraccion"));
 
         // Construye el mensaje específico de confirmación de pagoS
-        String asunto = "Multas - Infraccion registrada en el sistema";
-        String mensaje = "\nSe ha registrado una infraccion en el sistema\n\n" +
+        String asunto = "Multas - Penalizacion Incremento Multa";
+        String mensaje = "\nDebido a que ha sobrepasado el limite de 20 dias, su cargo ha sido incrementado." +
                          "\n - Id infractor: " + idInfractor +
-                         "\n - Id de la infracción: " + idInfraccion + 
-                         "\n - Precio infracción: " + precioInfraccion + 
+                         "\n - Id de la infraccion: " + idInfraccion + 
                          "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);
@@ -55,6 +51,7 @@ public class NotificarInfractor implements ExternalTaskHandler{
 
         System.out.println(" >> ----------\n");
     }
+
 
 
 }

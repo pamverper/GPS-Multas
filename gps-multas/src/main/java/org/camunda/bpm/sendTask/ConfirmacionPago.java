@@ -24,14 +24,15 @@ public class ConfirmacionPago implements ExternalTaskHandler{
 
         // CONFIGURA los valores específicos para este correo
     	String destinatario = "lauritagaro14@gmail.com";
-        Integer idInfractor = Integer.parseInt(externalTask.getVariable("id_infractor"));
-        Integer idInfraccion = Integer.parseInt(externalTask.getVariable("id_infraccion"));
+    	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
+        Integer idInfraccion = (Integer)externalTask.getVariable("id_infraccion");
 
         // Construye el mensaje específico de confirmación de pagoS
         String asunto = "Multas - Confirmacion pago recibido";
         String mensaje = "\nSe ha registrado el pago en el sistema\n\n" +
                          "\n - Id infractor: " + idInfractor +
                          "\n - Id de la infraccion: " + idInfraccion + 
+                         "\n\nSe le comunica que se ha recibido su pago en el sistema." +
                          "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);
