@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+
 public class ServiceTasks implements ExternalTaskHandler {
 
     private static final Logger LOGGER =
@@ -17,6 +18,7 @@ public class ServiceTasks implements ExternalTaskHandler {
         return precioInfraccion * 2;
     }
 
+    
     @Override
     public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
 
