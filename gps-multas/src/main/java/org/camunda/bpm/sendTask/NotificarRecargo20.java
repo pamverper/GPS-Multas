@@ -6,14 +6,14 @@ import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
 
-public class EnviarResolucionRechazada implements ExternalTaskHandler{
+public class NotificarRecargo20 implements ExternalTaskHandler{
 	
 	//Handler correo
-    private static final Logger LOGGER = Logger.getLogger(EnviarResolucionRechazada.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(NotificarRecargo20.class.getName());
     
     private MailGenerico mailWorker;
 
-    public EnviarResolucionRechazada() {
+    public NotificarRecargo20() {
         this.mailWorker = new MailGenerico();
     }
 
@@ -26,14 +26,13 @@ public class EnviarResolucionRechazada implements ExternalTaskHandler{
     	String destinatario = "lauritagaro14@gmail.com";
     	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
         Integer idInfraccion = (Integer)externalTask.getVariable("id_infraccion");
-        String resolucionRecurso = externalTask.getVariable("resolucion_recurso");
 
         // Construye el mensaje específico de confirmación de pagoS
-        String asunto = "Multas - Resolucion Recurso Rechazada";
-        String mensaje = "\nTras pasar los tramites correspondientes, se le comunica que su solicitud de recurso ha sido rechazado." +
+        String asunto = "Multas - Confirmacion pago recibido";
+        String mensaje = "\nSe ha registrado el pago en el sistema\n\n" +
                          "\n - Id infractor: " + idInfractor +
                          "\n - Id de la infraccion: " + idInfraccion + 
-                         "\n - Resolucion recurso: " + resolucionRecurso +
+                         "\n\nSe le comunica que se ha recibido su pago en el sistema." +
                          "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);
@@ -53,7 +52,5 @@ public class EnviarResolucionRechazada implements ExternalTaskHandler{
 
         System.out.println(" >> ----------\n");
     }
-
-
 
 }

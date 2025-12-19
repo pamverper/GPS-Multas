@@ -25,14 +25,17 @@ public class NotificarInfractorIncremento implements ExternalTaskHandler{
         // CONFIGURA los valores específicos para este correo
     	String destinatario = "lauritagaro14@gmail.com";
     	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
-    	Integer idInfraccion = (Integer) externalTask.getVariable("id_infraccion");
+        Integer idInfraccion = (Integer)externalTask.getVariable("id_infraccion");
+    	Integer precioInfraccion = (Integer) externalTask.getVariable("precio_infraccion");
+    	Integer precioIncremento = (Integer) externalTask.getVariable("precio_incremento");
 
         // Construye el mensaje específico de confirmación de pagoS
         String asunto = "Multas - Penalizacion Incremento Multa";
         String mensaje = "\nDebido a que ha sobrepasado el limite de 20 dias, su cargo ha sido incrementado." + 
                          "\n - Id infractor: " + idInfractor +
                          "\n - Id de la infraccion: " + idInfraccion + 
-                         "\n - Precio incrementado: " +  ""  +
+                         "\n - Precio inicial: " + precioInfraccion + "€" +
+                         "\n - Precio incrementado: " +  precioIncremento  + "€" +
                          "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);

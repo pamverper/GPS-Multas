@@ -24,6 +24,7 @@ public class Main {
         
         ServiceTasks.AñadirPenalizacion(client);
         
+        
         client.subscribe("notificar-incremento") 
         .lockDuration(1000)
         .handler(new NotificarInfractorIncremento())
@@ -33,5 +34,30 @@ public class Main {
         .lockDuration(1000)
         .handler(new ConfirmacionPago())
         .open();
+        
+        /*
+        client.subscribe("enviar-resolucion-aceptada") 
+        .lockDuration(1000)
+        .handler(new EnviarResolucionAceptada())
+        .open();
+        
+        
+        client.subscribe("enviar-resolucion-rechazada") 
+        .lockDuration(1000)
+        .handler(new EnviarResolucionRechazada())
+        .open();
+        
+        client.subscribe("confirmar-pago-recargo") 
+        .lockDuration(1000)
+        .handler(new ConfirmacionPagoRecargo())
+        .open();
+        
+        
+        client.subscribe("confirmar-pago-recargo") 
+        .lockDuration(1000)
+        .handler(new NotificarRecargo20())
+        .open();
+        
+        */
     }
 }

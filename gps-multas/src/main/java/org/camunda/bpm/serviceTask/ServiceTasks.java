@@ -1,46 +1,48 @@
 package org.camunda.bpm.serviceTask;
 
-import java.awt.Desktop;
-import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.camunda.bpm.client.ExternalTaskClient;
 
 public class ServiceTasks {
-	
-	
-	private final static Logger LOGGER = Logger.getLogger(ServiceTasks.class.getName());
-	
-	
-	//Añadir penalizacion
-	public static void AñadirPenalizacion(ExternalTaskClient client) {
-	    // subscribe to an external task topic as specified in the process
-	    client.subscribe("charge-card")
-	        .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
-	        .handler((externalTask, externalTaskService) -> {
-	          // Put your business logic here
 
-	          // Get a process variable
-	
-	          Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
-	      	  Integer idInfraccion = (Integer) externalTask.getVariable("id_infraccion");
+    private static final Logger LOGGER = Logger.getLogger(ServiceTasks.class.getName());
 
-	          LOGGER.info("Añadiendo penalizacion a la infracción con id: " + idInfraccion + 
-	        		  " al infractor con id: " + idInfractor + " .");
+    // Calcula el precio penalizado
+    private static Integer calcularPrecioPenalizado(Integer precioInfraccion) {
+        return precioInfraccion * 2;
+    }
 
-	          try {
-	              Desktop.getDesktop().browse(new URI("https://docs.camunda.org/get-started/quick-start/complete"));
-	          } catch (Exception e) {
-	              e.printStackTrace();
-	          }
+    // Tarea de servicio (External Task) para añadir penalización
+    public static void AñadirPenalizacion(ExternalTaskClient client) {
 
-	          // Complete the task
-	          externalTaskService.complete(externalTask);
-	        })
-	        .open();
-		
-	}
-	
-	//Otra tarea de servicio
+        client.subscribe("añadir-penalizacion")
+            .lockDuration(10000)
+            .handler((externalTask, externalTaskService) -> {
 
+                // 1) Leer variable existente
+                Integer precioInfraccion = (Integer) externalTask.getVariable("precio_infraccion");
+
+                if (precioInfraccion == null) {
+                    throw new RuntimeException("Falta la variable 'precio_infraccion'");
+                }
+
+                // 2) Calcular penalización
+                Integer precioPenalizacion = calcularPrecioPenalizado(precioInfraccion);
+
+                // 3) Put de la nueva variable
+                Map<String, Object> variables = new HashMap<>();
+                variables.put("precio_penalizacion", precioPenalizacion);
+
+                // 4) Complete enviando variables
+                externalTaskService.complete(externalTask, variables);
+
+                LOGGER.info("precio_infraccion=" + precioInfraccion
+                        + " -> precio_penalizacion=" + precioPenalizacion);
+            })
+            .open();
+    }
 }
+

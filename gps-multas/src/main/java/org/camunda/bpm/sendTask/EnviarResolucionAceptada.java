@@ -6,14 +6,14 @@ import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
 
-public class EnviarResolucionRechazada implements ExternalTaskHandler{
+public class EnviarResolucionAceptada implements ExternalTaskHandler{
 	
 	//Handler correo
-    private static final Logger LOGGER = Logger.getLogger(EnviarResolucionRechazada.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EnviarResolucionAceptada.class.getName());
     
     private MailGenerico mailWorker;
 
-    public EnviarResolucionRechazada() {
+    public EnviarResolucionAceptada() {
         this.mailWorker = new MailGenerico();
     }
 
@@ -29,12 +29,12 @@ public class EnviarResolucionRechazada implements ExternalTaskHandler{
         String resolucionRecurso = externalTask.getVariable("resolucion_recurso");
 
         // Construye el mensaje específico de confirmación de pagoS
-        String asunto = "Multas - Resolucion Recurso Rechazada";
-        String mensaje = "\nTras pasar los tramites correspondientes, se le comunica que su solicitud de recurso ha sido rechazado." +
-                         "\n - Id infractor: " + idInfractor +
-                         "\n - Id de la infraccion: " + idInfraccion + 
-                         "\n - Resolucion recurso: " + resolucionRecurso +
-                         "\n\nEste mensaje ha sido generado automaticamente.";
+        String asunto = "Multas - Resolucion Recurso Aceptada";
+        String mensaje = "\nTras pasar los tramites correspondientes, se le comunica que su solicitud de recurso ha sido aceptado." +
+		                "\n - Id infractor: " + idInfractor +
+		                "\n - Id de la infraccion: " + idInfraccion + 
+		                "\n - Resolucion recurso: " + resolucionRecurso +
+		                "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);
 
@@ -53,6 +53,7 @@ public class EnviarResolucionRechazada implements ExternalTaskHandler{
 
         System.out.println(" >> ----------\n");
     }
+
 
 
 
