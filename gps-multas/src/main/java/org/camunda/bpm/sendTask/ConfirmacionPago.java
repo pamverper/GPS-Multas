@@ -16,7 +16,7 @@ public class ConfirmacionPago implements ExternalTaskHandler{
     public ConfirmacionPago() {
         this.mailWorker = new MailGenerico();
     }
-
+    
     
     //DATOS CORREO:
     @Override
@@ -27,6 +27,7 @@ public class ConfirmacionPago implements ExternalTaskHandler{
     	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
         Integer idInfraccion = (Integer)externalTask.getVariable("id_infraccion");
     	Integer precioInfraccion = (Integer) externalTask.getVariable("precio_infraccion");
+    	
 
         // Construye el mensaje específico de confirmación de pagoS
         String asunto = "Multas - Confirmacion pago recibido";

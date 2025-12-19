@@ -27,7 +27,7 @@ public class NotificarInfractorIncremento implements ExternalTaskHandler{
     	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
         Integer idInfraccion = (Integer)externalTask.getVariable("id_infraccion");
     	Integer precioInfraccion = (Integer) externalTask.getVariable("precio_infraccion");
-    	Integer precioIncremento = (Integer) externalTask.getVariable("precio_incremento");
+    	Integer precioPenalizacion = (Integer) externalTask.getVariable("precio_penalizacion");
 
         // Construye el mensaje específico de confirmación de pagoS
         String asunto = "Multas - Penalizacion Incremento Multa";
@@ -35,7 +35,7 @@ public class NotificarInfractorIncremento implements ExternalTaskHandler{
                          "\n - Id infractor: " + idInfractor +
                          "\n - Id de la infraccion: " + idInfraccion + 
                          "\n - Precio inicial: " + precioInfraccion + "€" +
-                         "\n - Precio incrementado: " +  precioIncremento  + "€" +
+                         "\n - Precio incrementado: " +  precioPenalizacion  + "€" +
                          "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);

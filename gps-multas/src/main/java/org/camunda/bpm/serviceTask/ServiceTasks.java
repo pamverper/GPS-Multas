@@ -3,6 +3,7 @@ package org.camunda.bpm.serviceTask;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
+import org.camunda.bpm.sendTask.ConfirmacionPago;
 
 import java.util.HashMap;
 import java.util.Map;
