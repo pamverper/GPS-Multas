@@ -37,7 +37,7 @@ public class Main {
         .handler(new ConfirmacionPago())
         .open();
         
-        /*
+        
         client.subscribe("enviar-resolucion-aceptada") 
         .lockDuration(1000)
         .handler(new EnviarResolucionAceptada())
@@ -49,6 +49,7 @@ public class Main {
         .handler(new EnviarResolucionRechazada())
         .open();
         
+        /*
         client.subscribe("confirmar-pago-recargo") 
         .lockDuration(1000)
         .handler(new ConfirmacionPagoRecargo())
