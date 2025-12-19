@@ -49,18 +49,18 @@ public class Main {
         .handler(new EnviarResolucionRechazada())
         .open();
         
-        /*
+        
         client.subscribe("confirmar-pago-recargo") 
         .lockDuration(1000)
         .handler(new ConfirmacionPagoRecargo())
         .open();
         
         
-        client.subscribe("confirmar-pago-recargo") 
+        client.subscribe("notificar-recargo") 
         .lockDuration(1000)
         .handler(new NotificarRecargo20())
         .open();
         
-        */
+        
     }
 }

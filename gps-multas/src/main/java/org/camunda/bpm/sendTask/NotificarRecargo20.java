@@ -26,13 +26,14 @@ public class NotificarRecargo20 implements ExternalTaskHandler{
     	String destinatario = "lauritagaro14@gmail.com";
     	Integer idInfractor = (Integer) externalTask.getVariable("id_infractor");
         Integer idInfraccion = (Integer)externalTask.getVariable("id_infraccion");
+    	Integer precioInfraccion = (Integer) externalTask.getVariable("precio_infraccion");
+    	Integer precioPenalizacion = (Integer) externalTask.getVariable("precio_penalizacion");
 
         // Construye el mensaje específico de confirmación de pagoS
-        String asunto = "Multas - Confirmacion pago recibido";
-        String mensaje = "\nSe ha registrado el pago en el sistema\n\n" +
+        String asunto = "Multas - Notificacion recargo por superar 20 dias";
+        String mensaje = "\nDebido a que ha sobrepasado el limite de 20 dias, su cargo ha sido incrementado en un 20%." + 
                          "\n - Id infractor: " + idInfractor +
                          "\n - Id de la infraccion: " + idInfraccion + 
-                         "\n\nSe le comunica que se ha recibido su pago en el sistema." +
                          "\n\nEste mensaje ha sido generado automaticamente.";
 
         LOGGER.info("CONTENIDO DEL MENSAJE A ENVIAR: " + mensaje);
