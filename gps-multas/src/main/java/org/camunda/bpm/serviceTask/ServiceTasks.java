@@ -16,7 +16,7 @@ public class ServiceTasks {
     }
 
     // Tarea de servicio (External Task)
-    public static void anadirPenalizacion(ExternalTaskClient client) {
+    public static void AñadirPenalizacion(ExternalTaskClient client) {
 
         client.subscribe("añadir-penalizacion")
             .lockDuration(10_000)
