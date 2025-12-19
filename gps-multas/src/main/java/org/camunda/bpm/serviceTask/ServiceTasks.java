@@ -1,67 +1,53 @@
 package org.camunda.bpm.serviceTask;
 
+import org.camunda.bpm.client.task.ExternalTask;
+import org.camunda.bpm.client.task.ExternalTaskHandler;
+import org.camunda.bpm.client.task.ExternalTaskService;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.camunda.bpm.client.ExternalTaskClient;
 
-public class ServiceTasks {
+public class ServiceTasks implements ExternalTaskHandler {
 
-    private static final Logger LOGGER = Logger.getLogger(ServiceTasks.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(ServiceTasks.class.getName());
 
-    // Calcula el precio penalizado
-    private static Integer calcularPrecioPenalizado(Integer precioInfraccion) {
+    private Integer calcularPrecioPenalizado(Integer precioInfraccion) {
         return precioInfraccion * 2;
     }
 
-    // Tarea de servicio (External Task)
-    public static void AñadirPenalizacion(ExternalTaskClient client) {
 
-        client.subscribe("añadir-penalizacion")
-            .lockDuration(10_000)
-            .handler((externalTask, externalTaskService) -> {
+    @Override
+    public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
 
-                try {
-                    // 1) Leer variable existente
-                    Integer precioInfraccion =
-                            (Integer) externalTask.getVariable("precio_infraccion");
+        try {
+            // 1) Leer variable existente
+            Object raw = externalTask.getVariable("precio_infraccion");
+            if (raw == null) {
+                throw new RuntimeException("La variable 'precio_infraccion' no existe o está vacía");
+            }
 
-                    if (precioInfraccion == null) {
-                        throw new RuntimeException("Falta la variable 'precio_infraccion'");
-                    }
+            // 2) Normalizar a Integer (por si viene como Double/Long)
+            Integer precioInfraccion = ((Number) raw).intValue();
 
-                    // 2) Calcular precio penalizado
-                    Integer precioPenalizacion =
-                            calcularPrecioPenalizado(precioInfraccion);
+            // 3) Calcular penalización
+            Integer precioPenalizacion = calcularPrecioPenalizado(precioInfraccion);
 
-                    // 3) Put de la nueva variable
-                    Map<String, Object> variables = new HashMap<>();
-                    variables.put("precio_penalizacion", precioPenalizacion);
+            // 4) Guardar en Camunda (PUT)
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("precio_penalizacion", precioPenalizacion);
 
-                    // 4) COMPLETAR la tarea (CLAVE)
-                    externalTaskService.complete(externalTask, variables);
+            // 5) COMPLETAR
+            externalTaskService.complete(externalTask, variables);
 
-                    LOGGER.info("Tarea COMPLETADA | precio_infraccion="
-                            + precioInfraccion
-                            + " -> precio_penalizacion="
-                            + precioPenalizacion);
+            LOGGER.info("Penalización aplicada: precio_infraccion="
+                    + precioInfraccion + " -> precio_penalizacion=" + precioPenalizacion);
 
-                } catch (Exception e) {
-                    // Si hay error, NO se completa (correcto)
-                    LOGGER.severe("Error en añadir-penalizacion: " + e.getMessage());
-
-                    externalTaskService.handleFailure(
-                        externalTask,
-                        e.getMessage(),
-                        e.toString(),
-                        0,
-                        0
-                    );
-                }
-            })
-            .open();
+        } catch (Exception e) {
+            LOGGER.severe("Error en AnadirPenalizacion: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
-
-

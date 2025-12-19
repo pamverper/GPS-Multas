@@ -22,8 +22,10 @@ public class Main {
         .handler(new NotificarInfractor())
         .open();
         
-        ServiceTasks.AñadirPenalizacion(client);
-        
+        client.subscribe("añadir-penalizacion")
+        .handler(new ServiceTasks())
+        .open();
+
         
         client.subscribe("notificar-incremento") 
         .lockDuration(1000)
